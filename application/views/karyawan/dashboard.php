@@ -37,16 +37,23 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-6">
-					<div class="small-box bg-success">
+					<div class="small-box bg-purple">
 						<div class="inner">
-							<h3><?= $performance['completion_rate'] ?><sup style="font-size: 20px">%</sup></h3>
-							<p>Completion Rate</p>
+							<h3>
+								<?php if ($performance['completed_jobs'] > 0): ?>
+									<?= $performance['average_nilai'] ?>
+								<?php else: ?>
+									N/A
+								<?php endif; ?>
+							</h3>
+							<p>Average Jobs Score</p>
 						</div>
 						<div class="icon">
-							<i class="fas fa-chart-line"></i>
+							<i class="fas fa-star"></i>
 						</div>
-						<a href="<?= base_url('C_Karyawan/kinerja') ?>" class="small-box-footer">More info <i
-								class="fas fa-arrow-circle-right"></i></a>
+						<a href="<?= base_url('C_Karyawan/kinerja') ?>" class="small-box-footer">
+							More info <i class="fas fa-arrow-circle-right"></i>
+						</a>
 					</div>
 				</div>
 				<div class="col-lg-3 col-6">

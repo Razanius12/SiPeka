@@ -65,11 +65,13 @@
 																	<?= date('Y-m-d H:i', strtotime($r['revised_at'])) ?>
 																</span>
 																<h3 class="timeline-header">
-																	Revisi no <?= $r['revision_count'] ?>	oleh
-																	<?= $r['revised_by_name'] ?>
+																	Revisi no <?= $r['revision_count'] ?> oleh <?= $r['revised_by_name'] ?>
 																</h3>
 																<div class="timeline-body">
-																	<?= nl2br(htmlspecialchars($r['revision_note'])) ?>
+																	<p><strong>Revision Note:</strong> <?= $r['revision_note'] ?></p>
+																	<?php if (!empty($r['karyawan_comment'])): ?>
+																		<p><strong>Karyawan Response:</strong> <?= $r['karyawan_comment'] ?></p>
+																	<?php endif; ?>
 																</div>
 															</div>
 														</div>

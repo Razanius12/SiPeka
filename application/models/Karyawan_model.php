@@ -175,6 +175,14 @@ class Karyawan_model extends CI_Model
 			->where('finished_at <= deadline')
 			->count_all_results('jobsheet');
 
+
+		$nilai_query = $this->db->select_sum('nilai')
+			->where('id_user', $id_user)
+			->where('status', 'COMPLETED')
+			->get('jobsheet');
+		$total_nilai = $nilai_query->row()->nilai;
+		$average_nilai = $completed_jobs > 0 ? round($total_nilai / $completed_jobs, 2) : 0;
+
 		$completion_rate = $total_jobs ? ($completed_jobs / $total_jobs) * 100 : 0;
 		$ontime_rate = $completed_jobs ? ($ontime_jobs / $completed_jobs) * 100 : 0;
 
@@ -184,7 +192,8 @@ class Karyawan_model extends CI_Model
 			'pending_jobs' => $this->db->where('id_user', $id_user)->where('status', 'PENDING')->count_all_results('jobsheet'),
 			'onprogress_jobs' => $this->db->where('id_user', $id_user)->where('status', 'ON PROGRESS')->count_all_results('jobsheet'),
 			'completion_rate' => round($completion_rate, 2),
-			'ontime_rate' => round($ontime_rate, 2)
+			'ontime_rate' => round($ontime_rate, 2),
+			'average_nilai' => $average_nilai
 		];
 	}
 
@@ -202,7 +211,8 @@ class Karyawan_model extends CI_Model
 	{
 		$this->db->select('jobsheet.*, user.nama as revised_by_name, 
 																					jobsheet_revisions.revised_at, jobsheet_revisions.revision_note,
-																					jobsheet_revisions.revision_count');
+																					jobsheet_revisions.revision_count,
+																					jobsheet_revisions.karyawan_comment');
 		$this->db->from('jobsheet');
 		$this->db->join('jobsheet_revisions', 'jobsheet_revisions.id_jobsheet = jobsheet.id_jobsheet');
 		$this->db->join('user', 'user.id_user = jobsheet_revisions.revised_by');

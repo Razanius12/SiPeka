@@ -85,7 +85,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="attachments">Attachments (Max 5 files)</label>
+									<label for="attachments">Tambahkan Referensi (Max 5 files)</label>
 									<div class="custom-file">
 										<input type="file" class="custom-file-input" id="attachments"
 											name="attachments[]" multiple
@@ -97,6 +97,7 @@
 										ZIP, RAR
 										(Max 32MB each)</small>
 									<div id="fileList" class="mt-2"></div>
+									<small class="text-danger" id="attachments_error"></small>
 								</div>
 							</div>
 							<div class="card-footer">
@@ -127,7 +128,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-	// Add/update this function in both formTambahJobsheet.php and formEditJobsheet.php
 	function initDivisiFilter() {
 		const filterSelect = document.getElementById('filter_divisi');
 		const karyawanSelect = document.getElementById('id_user');
@@ -148,7 +148,6 @@
 			}
 		}
 
-		// Add change event listener for karyawan select
 		karyawanSelect.addEventListener('change', function() {
 			const selectedOption = this.options[this.selectedIndex];
 			if (selectedOption && selectedOption.value) {
@@ -162,7 +161,6 @@
 
 		filterSelect.addEventListener('change', filterKaryawan);
 
-		// Set initial divisi filter value if karyawan is already selected
 		if (karyawanSelect.value) {
 			const selectedOption = karyawanSelect.options[karyawanSelect.selectedIndex];
 			const karyawanDivisi = selectedOption.getAttribute('data-divisi');
@@ -173,7 +171,6 @@
 		}
 	}
 
-	// Initialize when document is ready
 	document.addEventListener('DOMContentLoaded', initDivisiFilter);
 
 	const urlParams = new URLSearchParams(window.location.search);
@@ -188,7 +185,7 @@
 		redirecUrl = '<?= base_url() . 'C_Penilai' ?>';
 	}
 
-	const inputFields = ['title', 'tasked_at', 'deadline', 'id_user'];
+	const inputFields = ['title', 'tasked_at', 'deadline', 'id_user', 'attachments'];
 
 	inputFields.forEach(fieldId => {
 		document.getElementById(fieldId).addEventListener('input', function() {
@@ -237,6 +234,8 @@
 		const tasked_at = document.getElementById('tasked_at').value.trim();
 		const deadline = document.getElementById('deadline').value.trim();
 		const id_user = document.getElementById('id_user').value.trim();
+		const newAttachments = document.getElementById('attachments').files;
+
 		if (!title) {
 			document.getElementById('title_error').innerText = 'Judul tidak boleh kosong';
 			return;
@@ -269,6 +268,13 @@
 		if (!id_user) {
 			document.getElementById('id_user_error').innerText = 'Karyawan tidak boleh kosong';
 			return;
+		}
+
+		for (let i = 0; i < newAttachments.length; i++) {
+			if (newAttachments[i].name.length > 255) {
+				document.getElementById('new_attachments_error').innerText = 'Nama file tidak boleh lebih dari 255 karakter';
+				return;
+			}
 		}
 
 		Swal.fire({

@@ -3,20 +3,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 /**
-	*
-	* Controller C_Penilai
-	*
-	* This controller for ...
-	*
-	* @package   CodeIgniter
-	* @category  Controller CI
-	* @author    Setiawan Jodi <jodisetiawan@fisip-untirta.ac.id>
-	* @author    Raul Guerrero <r.g.c@me.com>
-	* @link      https://github.com/setdjod/myci-extension/
-	* @param     ...
-	* @return    ...
-	*
-	*/
+ *
+ * Controller C_Penilai
+ *
+ * This controller for ...
+ *
+ * @package   CodeIgniter
+ * @category  Controller CI
+ * @author    Setiawan Jodi <jodisetiawan@fisip-untirta.ac.id>
+ * @author    Raul Guerrero <r.g.c@me.com>
+ * @link      https://github.com/setdjod/myci-extension/
+ * @param     ...
+ * @return    ...
+ *
+ */
 
 class C_Penilai extends CI_Controller
 {
@@ -115,6 +115,25 @@ class C_Penilai extends CI_Controller
 		$this->load->view('templates/sidebar');
 		$this->load->view('penilai/formEditJobsheet', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function formNilaiJobsheet($id)
+	{
+		check_access(['Tim Penilai']);
+		$data['jobsheet'] = $this->Penilai_model->getJobsheetID($id);
+		$data['karyawan'] = $this->Penilai_model->getAllKaryawan();
+		$data['revisions'] = $this->Penilai_model->getJobsheetRevisions($id);
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('penilai/formNilaiJobsheet', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function updateNilaiJobsheet()
+	{
+		check_access(['Tim Penilai']);
+		$this->Penilai_model->updateNilaiJobsheet();
+		redirect(base_url() . 'C_Penilai/jobsheetCompleted?status=updated');
 	}
 
 	public function updateJobsheet()
@@ -255,7 +274,6 @@ class C_Penilai extends CI_Controller
 		$html = $this->load->view('penilai/laporan_pdf', $data, true);
 		$this->pdfgenerator->generate($html, $file_pdf, $paper, $orientation);
 	}
-
 }
 
 

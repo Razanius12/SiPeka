@@ -94,7 +94,20 @@
 </div>
 <!-- /.content-wrapper -->
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+	if (urlParams.get('status') === 'selesai') {
+		Swal.fire({
+			icon: 'success',
+			title: 'Berhasil',
+			text: 'Jobsheet telah	diselesaikan',
+		}).then(() => {
+			window.history.replaceState({ path: newUrl }, '', newUrl);
+		});
+	}
+
 	document.addEventListener('DOMContentLoaded', function () {
 		$(document).ready(function () {
 			$('#jobsheetTable').DataTable({

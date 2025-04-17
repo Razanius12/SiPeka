@@ -84,17 +84,6 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-6">
-					<div class="small-box bg-success">
-						<div class="inner">
-							<h3><?= $summary['avg_completion_rate'] ?>%</h3>
-							<p>Rata-rata Penyelesaian</p>
-						</div>
-						<div class="icon">
-							<i class="fas fa-chart-line"></i>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-6">
 					<div class="small-box bg-warning">
 						<div class="inner">
 							<h3><?= $summary['total_active_tasks'] ?></h3>
@@ -106,13 +95,48 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-6">
-					<div class="small-box bg-danger">
+					<div class="small-box bg-purple">
 						<div class="inner">
-							<h3><?= $summary['overdue_tasks'] ?></h3>
-							<p>Tugas Terlambat</p>
+							<?php
+							$total_nilai = 0;
+							$karyawan_with_nilai = 0;
+							foreach ($performance_by_divisi as $divisi_name => $karyawan_list) {
+								foreach ($karyawan_list as $k) {
+									if ($k['completed_jobs'] > 0) {
+										$total_nilai += $k['average_nilai'];
+										$karyawan_with_nilai++;
+									}
+								}
+							}
+							$overall_average = $karyawan_with_nilai > 0 ? round($total_nilai / $karyawan_with_nilai, 2) : 0;
+							?>
+							<h3><?= $overall_average ?></h3>
+							<p>Rata-rata Nilai Jobsheet</p>
 						</div>
 						<div class="icon">
-							<i class="fas fa-clock"></i>
+							<i class="fas fa-star"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-danger">
+						<div class="inner">
+							<?php
+							$total_revision_score = 0;
+							foreach ($performance_by_divisi as $divisi_name => $karyawan_list) {
+								foreach ($karyawan_list as $k) {
+									if ($k['completed_jobs'] > 0) {
+										$total_revision_score += $k['average_revision_score'];
+									}
+								}
+							}
+							$overall_average_revision = $karyawan_with_nilai > 0 ? round($total_revision_score / $karyawan_with_nilai, 2) : 0;
+							?>
+							<h3><?= $overall_average_revision ?></h3>
+							<p>Rata-rata Nilai Revisi</p>
+						</div>
+						<div class="icon">
+							<i class="fas fa-edit"></i>
 						</div>
 					</div>
 				</div>
@@ -134,7 +158,9 @@
 										<th>Dalam Proses</th>
 										<th>Pending</th>
 										<th>Ketepatan Waktu</th>
-										<th>Progress</th>
+										<th>Nilai Jobsheet</th>
+										<th>Nilai Revisi</th>
+										<th>Total Nilai</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -155,9 +181,25 @@
 											</td>
 											<td>
 												<div class="progress">
-													<div class="progress-bar bg-primary" role="progressbar"
-														style="width: <?= $k['completion_rate'] ?>%">
-														<?= $k['completion_rate'] ?>%
+													<div class="progress-bar bg-purple" role="progressbar"
+														style="width: <?= $k['average_nilai'] ?>%">
+														<?= $k['average_nilai'] ?>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar bg-info" role="progressbar"
+														style="width: <?= $k['average_revision_score'] ?>%">
+														<?= $k['average_revision_score'] ?>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar"
+														style="width: <?= $k['total_nilai'] ?>%">
+														<?= $k['total_nilai'] ?>
 													</div>
 												</div>
 											</td>

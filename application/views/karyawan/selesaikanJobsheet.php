@@ -80,7 +80,7 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="attachments">Submit Attachments (Max 5 files)
+											<label for="attachments">Upload Hasil Pekerjaan (Max 5 files)
 												<span class="text-danger">*</span>
 											</label>
 											<div class="custom-file">
@@ -94,18 +94,19 @@
 												JPEG, PNG,
 												ZIP, RAR (Max 32MB each)</small>
 											<div id="fileList" class="mt-2"></div>
+											<small	class="text-danger" id="attachments_error"></small>
 										</div>
 									</div>
+									<?php if ($jobsheet['is_revision']): ?>
+										<div class="col-12">
+											<div class="form-group">
+												<label for="karyawan_comment">Komentar Anda</label>
+												<textarea class="form-control" id="karyawan_comment" name="karyawan_comment" rows="3"></textarea>
+											</div>
+										</div>
+									<?php endif; ?>
 								</div>
 							</div>
-							<?php if ($jobsheet['is_revision']): ?>
-								<div class="col-12">
-									<div class="form-group">
-										<label for="karyawan_comment">Komentar Anda <span class="text-danger">*</span></label>
-										<textarea class="form-control" id="karyawan_comment" name="karyawan_comment" rows="3" required></textarea>
-									</div>
-								</div>
-							<?php endif; ?>
 							<input type="hidden" name="id_jobsheet" value="<?= $jobsheet['id_jobsheet'] ?>">
 							<div class="card-footer">
 								<div class="row">
@@ -134,8 +135,33 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+
+const inputFields = ['attachments'];
+
+	inputFields.forEach(fieldId => {
+		document.getElementById(fieldId).addEventListener('input', function() {
+			document.getElementById(`${fieldId}_error`).innerText = '';
+		});
+	});
+
 	function simpan(event) {
 		event.preventDefault();
+
+		const attachments = document.querySelector('input[name="attachments[]"]').files;
+		const newAttachments = document.getElementById('attachments').files;
+
+		if (attachments.length === 0) {
+			document.getElementById('attachments_error').innerText = 'Attachments tidak boleh kosong';
+			return;
+		}
+
+		for (let i = 0; i < newAttachments.length; i++) {
+			if (newAttachments[i].name.length > 255) {
+				document.getElementById('new_attachments_error').innerText = 'Nama file tidak boleh lebih dari 255 karakter';
+				return;
+			}
+		}
+		
 		Swal.fire({
 			title: 'Apakah anda yakin?',
 			text: "Data yang diinputkan akan tersimpan!",

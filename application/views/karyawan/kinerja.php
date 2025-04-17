@@ -32,6 +32,19 @@
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-6">
+									<div class="info-box bg-purple">
+										<span class="info-box-icon"><i class="fas fa-star"></i></span>
+										<div class="info-box-content">
+											<span class="info-box-text">Average Jobs Score</span>
+											<span class="info-box-number">
+												<?php if ($performance['completed_jobs'] > 0): ?>
+													<?= $performance['average_nilai'] ?>
+												<?php else: ?>
+													N/A
+												<?php endif; ?>
+											</span>
+										</div>
+									</div>
 									<div class="info-box bg-info">
 										<span class="info-box-icon"><i class="fas fa-tasks"></i></span>
 										<div class="info-box-content">
@@ -76,6 +89,15 @@
 														style="width: <?= $performance['ontime_rate'] ?>%"></div>
 												</div>
 											</div>
+											<div class="progress-group mt-4">
+												Average Jobs Score
+												<span class="float-right"><?= $performance['average_nilai'] ?></span>
+												<div class="progress">
+													<div class="progress-bar bg-purple"
+														style="width: <?= $performance['average_nilai'] ?>%">
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -94,6 +116,7 @@
 												<th>Assigned</th>
 												<th>Deadline</th>
 												<th>Days Left</th>
+												<th>Score</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -106,6 +129,15 @@
 													<td><?= date('Y-m-d', strtotime($job['tasked_at'])) ?></td>
 													<td><?= date('Y-m-d', strtotime($job['deadline'])) ?></td>
 													<td><?= $job['days_left'] ?></td>
+													<td>
+														<?php if ($job['nilai'] == 0): ?>
+															<span class="badge badge-danger">Belum Dinilai</span>
+														<?php elseif ($job['nilai'] <= 60): ?>
+															<span class="badge badge-warning"><?= $job['nilai'] ?></span>
+														<?php else: ?>
+															<span class="badge badge-success"><?= $job['nilai'] ?></span>
+														<?php endif; ?>
+													</td>
 												</tr>
 											<?php endforeach; ?>
 										</tbody>

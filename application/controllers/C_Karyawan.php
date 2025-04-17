@@ -89,7 +89,7 @@ class C_Karyawan extends CI_Controller
 	public function submitJobsheet()
 	{
 		$this->Karyawan_model->submitJobsheet();
-		redirect('C_Karyawan/jobsheetCompleted');
+		redirect('C_Karyawan/jobsheetCompleted?status=selesai');
 	}
 
 	public function jobsheetCompleted()

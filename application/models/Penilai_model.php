@@ -140,39 +140,68 @@ class Penilai_model extends CI_Model
 		$this->db->update('jobsheet', $data);
 	}
 
+	public function updateNilaiJobsheet()
+	{
+		$data = [
+			'nilai' => $this->input->post('nilai')
+		];
+
+		$this->db->where('id_jobsheet', $this->input->post('id_jobsheet'));
+		return $this->db->update('jobsheet', $data);
+	}
+
 	public function hapusJobsheet($id)
 	{
 		$jobsheet = $this->getJobsheetID($id);
-		if (!$jobsheet) {
-			return false;
-		}
-		$this->db->where('id_jobsheet', $id);
-		$this->db->update('jobsheet', [
-			'references_id' => null,
-			'attach_result_id' => null
-		]);
-		$attachment_fields = ['references_id', 'attach_result_id'];
-		foreach ($attachment_fields as $field) {
-			if ($jobsheet[$field]) {
-				$attachments = $this->db->get_where('attachments', ['id_attachment' => $jobsheet[$field]])->row_array();
 
-				if ($attachments) {
-					$upload_path = './uploads/jobsheet/';
-					for ($i = 1; $i <= 5; $i++) {
-						$field_name = 'atch' . $i;
-						if (!empty($attachments[$field_name])) {
-							$file_path = $upload_path . $attachments[$field_name];
-							if (file_exists($file_path)) {
-								unlink($file_path);
-							}
-						}
+		if ($jobsheet['references_id']) {
+			$ref_attachments = $this->getAttachments($jobsheet['references_id']);
+
+			for ($i = 1; $i <= 5; $i++) {
+				$field = 'atch' . $i;
+				if (!empty($ref_attachments[$field])) {
+					$file_path = './uploads/jobsheet/' . $ref_attachments[$field];
+					if (file_exists($file_path)) {
+						unlink($file_path);
 					}
-					$this->db->delete('attachments', ['id_attachment' => $jobsheet[$field]]);
 				}
 			}
+
+			$this->db->where('id_jobsheet', $id);
+			$this->db->update('jobsheet', ['references_id' => NULL]);
+
+			$this->db->where('id_attachment', $jobsheet['references_id']);
+			$this->db->delete('attachments');
 		}
 
-		return $this->db->delete('jobsheet', ['id_jobsheet' => $id]);
+		if ($jobsheet['attach_result_id']) {
+			$result_attachments = $this->getAttachments($jobsheet['attach_result_id']);
+
+			$this->db->where('previous_result_id', $jobsheet['attach_result_id']);
+			$this->db->update('jobsheet_revisions', ['previous_result_id' => NULL]);
+
+			for ($i = 1; $i <= 5; $i++) {
+				$field = 'atch' . $i;
+				if (!empty($result_attachments[$field])) {
+					$file_path = './uploads/jobsheet/' . $result_attachments[$field];
+					if (file_exists($file_path)) {
+						unlink($file_path);
+					}
+				}
+			}
+
+			$this->db->where('id_jobsheet', $id);
+			$this->db->update('jobsheet', ['attach_result_id' => NULL]);
+
+			$this->db->where('id_attachment', $jobsheet['attach_result_id']);
+			$this->db->delete('attachments');
+		}
+
+		$this->db->where('id_jobsheet', $id);
+		$this->db->delete('jobsheet_revisions');
+
+		$this->db->where('id_jobsheet', $id);
+		$this->db->delete('jobsheet');
 	}
 
 	public function uploadAttachments($files)
@@ -311,6 +340,14 @@ class Penilai_model extends CI_Model
 		return false;
 	}
 
+	public function calculateRevisionScore($revision_count)
+	{
+		// Base score is 100, deduct 10 points for each revision
+		$score = 100 - ($revision_count * 10);
+		// Ensure score doesn't go below 0
+		return max(0, $score);
+	}
+
 	public function getPerformanceStats($divisi = null, $periode = 'all')
 	{
 		$this->db->select('user.*, divisi.nama_divisi');
@@ -327,6 +364,13 @@ class Penilai_model extends CI_Model
 
 		$stats = [];
 		foreach ($karyawan as $k) {
+			$this->db->select('COUNT(id_jobsheet) as total_jobs, 
+																								COUNT(CASE WHEN status = "COMPLETED" THEN 1 END) as completed_jobs,
+																								COUNT(CASE WHEN status = "PENDING" THEN 1 END) as pending_jobs,
+																								COUNT(CASE WHEN status = "ON PROGRESS" THEN 1 END) as progress_jobs,
+																								COUNT(CASE WHEN status = "COMPLETED" AND finished_at <= deadline THEN 1 END) as ontime_jobs,
+																								COALESCE(AVG(CASE WHEN status = "COMPLETED" THEN nilai END), 0) as average_nilai,
+                        COALESCE(AVG(CASE WHEN status = "COMPLETED" THEN (100 - (current_revision * 10)) END), 0) as average_revision_score');
 			$this->db->from('jobsheet');
 			$this->db->where('id_user', $k['id_user']);
 
@@ -345,31 +389,26 @@ class Penilai_model extends CI_Model
 				$this->db->where('YEAR(tasked_at)', date('Y'));
 			}
 
-			$total_jobs = $this->db->count_all_results();
+			$job_stats = $this->db->get()->row_array();
 
-			$this->db->where('id_user', $k['id_user'])
-				->where('status', 'COMPLETED');
-			if ($periode != 'all') {
-				$this->applyPeriodFilter($periode);
-			}
-			$completed_jobs = $this->db->count_all_results('jobsheet');
-
-			$this->db->where('id_user', $k['id_user'])
-				->where('status', 'COMPLETED')
-				->where('finished_at <= deadline');
-			if ($periode != 'all') {
-				$this->applyPeriodFilter($periode);
-			}
-			$ontime_jobs = $this->db->count_all_results('jobsheet');
+			$total_jobs = $job_stats['total_jobs'];
+			$completed_jobs = $job_stats['completed_jobs'];
+			$ontime_rate = $completed_jobs ? round(($job_stats['ontime_jobs'] / $completed_jobs) * 100, 2) : 0;
+			$average_nilai = round($job_stats['average_nilai'], 2);
+			$average_revision_score = round($job_stats['average_revision_score'], 2);
+			$total_nilai = round(($ontime_rate + $average_nilai + $average_revision_score) / 3, 2);
 
 			$stats[] = [
 				'karyawan' => $k,
 				'total_jobs' => $total_jobs,
 				'completed_jobs' => $completed_jobs,
-				'pending_jobs' => $this->getStatusCount($k['id_user'], 'PENDING', $periode),
-				'onprogress_jobs' => $this->getStatusCount($k['id_user'], 'ON PROGRESS', $periode),
+				'pending_jobs' => $job_stats['pending_jobs'],
+				'onprogress_jobs' => $job_stats['progress_jobs'],
 				'completion_rate' => $total_jobs ? round(($completed_jobs / $total_jobs) * 100, 2) : 0,
-				'ontime_rate' => $completed_jobs ? round(($ontime_jobs / $completed_jobs) * 100, 2) : 0,
+				'ontime_rate' => $ontime_rate,
+				'average_nilai' => $average_nilai,
+				'average_revision_score' => $average_revision_score,
+				'total_nilai' => $total_nilai,
 				'overdue_tasks' => $this->getOverdueTasks($k['id_user'], $periode)
 			];
 		}
@@ -432,7 +471,9 @@ class Penilai_model extends CI_Model
 						             		SUM(CASE WHEN jobsheet.status = "COMPLETED" THEN 1 ELSE 0 END) as tugas_selesai,
 						             		SUM(CASE WHEN jobsheet.status = "PENDING" THEN 1 ELSE 0 END) as tugas_pending,
 						             		SUM(CASE WHEN jobsheet.status = "ON PROGRESS" THEN 1 ELSE 0 END) as tugas_progress,
-						             		SUM(CASE WHEN jobsheet.status = "COMPLETED" AND jobsheet.finished_at <= jobsheet.deadline THEN 1 ELSE 0 END) as tepat_waktu');
+						             		SUM(CASE WHEN jobsheet.status = "COMPLETED" AND jobsheet.finished_at <= jobsheet.deadline THEN 1 ELSE 0 END) as tepat_waktu,
+																					SUM(CASE WHEN jobsheet.status = "COMPLETED" THEN jobsheet.nilai ELSE 0 END) as total_nilai,
+                     SUM(CASE WHEN jobsheet.status = "COMPLETED" THEN (100 - (jobsheet.current_revision * 10)) ELSE 0 END) as total_revision_score');
 
 		$this->db->from('user');
 		$this->db->join('divisi', 'user.id_divisi = divisi.id_divisi');
@@ -579,7 +620,6 @@ class Penilai_model extends CI_Model
 
 		$jobsheet = $this->getJobsheetID($id_jobsheet);
 
-		// Store the current state in revisions
 		$revision_data = [
 			'id_jobsheet' => $id_jobsheet,
 			'revision_count' => $jobsheet['current_revision'] + 1,
@@ -592,21 +632,15 @@ class Penilai_model extends CI_Model
 		$this->db->insert('jobsheet_revisions', $revision_data);
 		$revision_id = $this->db->insert_id();
 
-		// Delete old attachments if they exist
 		if ($jobsheet['attach_result_id']) {
-			// Get attachment records
 			$attachments = $this->getAttachments($jobsheet['attach_result_id']);
 
-			// First nullify all foreign key references
-			// 1. Nullify in jobsheet table
 			$this->db->where('id_jobsheet', $id_jobsheet);
 			$this->db->update('jobsheet', ['attach_result_id' => NULL]);
 
-			// 2. Nullify in jobsheet_revisions table
 			$this->db->where('id_revision', $revision_id);
 			$this->db->update('jobsheet_revisions', ['previous_result_id' => NULL]);
 
-			// Delete physical files
 			for ($i = 1; $i <= 5; $i++) {
 				$field = 'atch' . $i;
 				if (!empty($attachments[$field])) {
@@ -617,12 +651,10 @@ class Penilai_model extends CI_Model
 				}
 			}
 
-			// Now safe to delete attachment record from database
 			$this->db->where('id_attachment', $jobsheet['attach_result_id']);
 			$this->db->delete('attachments');
 		}
 
-		// Update the jobsheet
 		$data = [
 			'status' => 'PENDING',
 			'current_revision' => $jobsheet['current_revision'] + 1,

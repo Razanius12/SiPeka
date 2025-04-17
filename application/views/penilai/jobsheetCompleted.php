@@ -53,6 +53,7 @@
 											<th>Deadline</th>
 											<th>Hari Tersisa</th>
 											<th>Dikerjakan Oleh</th>
+											<th>Nilai</th>
 											<th>Aksi</th>
 										</tr>
 									</thead>
@@ -60,9 +61,9 @@
 										<?php foreach ($jobsheet as $j): ?>
 											<tr>
 												<td><?= $j['title'] ?></td>
-												<td><?= date('Y-m-d', strtotime($j['tasked_at'])) ?></td>
-												<td><?= date('Y-m-d', strtotime($j['finished_at'])) ?></td>
-												<td><?= date('Y-m-d', strtotime($j['deadline'])) ?></td>
+												<td><?= $j['tasked_at'] ?></td>
+												<td><?= $j['finished_at'] ?></td>
+												<td><?= $j['deadline'] ?></td>
 												<td>
 													<?php if ($j['days_left'] <= 0): ?>
 														<span class="badge badge-danger"><?= $j['days_left'] ?> Hari</span>
@@ -74,6 +75,19 @@
 												</td>
 												<td><?= $j['nama'] ?></td>
 												<td>
+													<?php if ($j['nilai'] == 0): ?>
+														<span class="badge badge-danger">Belum Dinilai</span>
+													<?php elseif ($j['nilai'] <= 60): ?>
+														<span class="badge badge-warning"><?= $j['nilai'] ?></span>
+													<?php else: ?>
+														<span class="badge badge-success"><?= $j['nilai'] ?></span>
+													<?php endif; ?>
+												</td>
+												<td>
+													<a href="<?= base_url() . 'C_Penilai/formNilaiJobsheet/' . $j['id_jobsheet'] ?>?from=completed"
+														class="btn btn-primary btn-sm">
+														<i class="fas fa-check text-light"></i>
+													</a>
 													<a href="<?= base_url() . 'C_Penilai/formEditJobsheet/' . $j['id_jobsheet'] ?>?from=completed"
 														class="btn btn-warning btn-sm">
 														<i class="fas fa-edit text-light"></i>
