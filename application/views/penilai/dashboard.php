@@ -71,7 +71,7 @@
 							<h3 class="card-title">Grafik Kinerja per Divisi</h3>
 						</div>
 						<div class="card-body">
-							<canvas id="performanceChart" style="height: 1000px;"></canvas>
+							<canvas id="performanceChart"></canvas>
 						</div>
 					</div>
 				</div>

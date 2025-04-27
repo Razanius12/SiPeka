@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="408.03613"
+   height="120.70747"
+   viewBox="0 0 408.03613 120.70747"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="logoText.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="0.91992187"
+     inkscape:cx="172.29724"
+     inkscape:cy="266.87049"
+     inkscape:window-width="1366"
+     inkscape:window-height="715"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="408.03613"
+       height="120.70747"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient15"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#01a0e7;stop-opacity:1;"
+         offset="0"
+         id="stop15" />
+      <stop
+         style="stop-color:#004366;stop-opacity:1;"
+         offset="1"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient11"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#01a0e7;stop-opacity:1;"
+         offset="0.30666667"
+         id="stop11" />
+      <stop
+         style="stop-color:#004366;stop-opacity:1;"
+         offset="1"
+         id="stop12" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient11"
+       id="linearGradient12"
+       x1="180.50159"
+       y1="199.43655"
+       x2="180.50159"
+       y2="380.61725"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient15"
+       id="linearGradient16"
+       x1="107.41718"
+       y1="145.21359"
+       x2="107.41718"
+       y2="265.30267"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-49.589312,-195.64649)">
+    <g
+       id="g10"
+       transform="matrix(0.47435093,0,0,0.47435093,24.333066,134.77721)">
+      <path
+         id="path9"
+         style="opacity:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:20"
+         d="m 169.90486,132.71674 a 2.5,2.5 0 0 0 -1.71562,0.84968 2.5,2.5 0 0 0 0.2368,3.52759 l 135.18698,118.18516 a 2.5,2.5 0 0 0 3.52759,-0.23564 2.5,2.5 0 0 0 -0.2368,-3.52759 L 171.71683,133.32846 a 2.5,2.5 0 0 0 -1.81197,-0.61172 z m -71.938839,2.22752 a 5,5 0 0 0 -1.950097,0.0406 5,5 0 0 0 -3.137567,2.19037 5,5 0 0 0 1.521772,6.90427 L 275.9704,260.08824 55.955362,373.3436 a 5,5 0 0 0 -2.156714,6.7348 5,5 0 0 0 6.732477,2.15788 L 288.27691,265.00179 a 5.0005,5.0005 0 0 0 0.40278,-8.66052 L 99.782629,135.65465 a 5,5 0 0 0 -1.816608,-0.71039 z" />
+      <path
+         id="path1"
+         style="fill:url(#linearGradient12);stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:20"
+         d="m 169.90486,128.3267 a 2.5,2.5 0 0 0 -1.71562,0.84852 2.5,2.5 0 0 0 0.2368,3.52759 l 135.18698,118.18632 a 2.5,2.5 0 0 0 3.52759,-0.2368 2.5,2.5 0 0 0 -0.2368,-3.52759 L 171.71683,128.93959 a 2.5,2.5 0 0 0 -1.81197,-0.61289 z m -71.938839,2.22752 a 5,5 0 0 0 -1.950097,0.0395 5,5 0 0 0 -3.137567,2.19153 5,5 0 0 0 1.521772,6.90427 L 275.97272,255.69937 55.955362,368.95473 a 5,5 0 0 0 -2.156714,6.73247 5,5 0 0 0 6.732477,2.15904 L 288.27691,260.61175 a 5.0005,5.0005 0 0 0 0.40278,-8.66052 L 99.782629,131.26345 a 5,5 0 0 0 -1.816608,-0.70923 z" />
+    </g>
+    <g
+       id="g14"
+       transform="matrix(0.3903185,0,0,0.3903185,285.36183,196.0814)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:192px;line-height:1;font-family:'Russo One';-inkscape-font-specification:'Russo One';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:20;stroke-dasharray:none;stroke-opacity:1"
+         x="113.50114"
+         y="223.27408"
+         id="text12"><tspan
+           sodipodi:role="line"
+           id="tspan12"
+           x="113.50114"
+           y="223.27408"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Russo One';-inkscape-font-specification:'Russo One';fill:#000000;fill-opacity:1;stroke:none">SiPeka</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:192px;line-height:1;font-family:'Russo One';-inkscape-font-specification:'Russo One';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-orientation:upright;text-anchor:middle;opacity:1;fill:url(#linearGradient16);stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:20;stroke-dasharray:none;stroke-opacity:1"
+         x="108.37711"
+         y="218.15005"
+         id="text14"><tspan
+           sodipodi:role="line"
+           id="tspan14"
+           x="108.37711"
+           y="218.15005"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Russo One';-inkscape-font-specification:'Russo One';fill:url(#linearGradient16);fill-opacity:1;stroke:none">SiPeka</tspan></text>
+    </g>
+  </g>
+</svg>

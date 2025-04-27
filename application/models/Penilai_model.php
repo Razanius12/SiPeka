@@ -557,7 +557,7 @@ class Penilai_model extends CI_Model
 		$this->db->join('user', 'jobsheet.id_user = user.id_user');
 		$this->db->where('status', 'COMPLETED');
 		$this->db->order_by('finished_at', 'DESC');
-		$this->db->limit(5);
+		$this->db->limit(3);
 
 		$activities = [];
 		foreach ($this->db->get()->result_array() as $row) {

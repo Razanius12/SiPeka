@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2025 at 06:34 AM
+-- Generation Time: Apr 21, 2025 at 05:57 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,16 +44,14 @@ INSERT INTO `attachments` (`id_attachment`, `atch1`, `atch2`, `atch3`, `atch4`, 
 (20, '180SX RED 1.png', '180SX RED 2.png', '180SX RED 3.png', '', ''),
 (21, 'localhost_php_razan_pweb_SiPeka_PenilaianKaryawan_.png', '', '', '', ''),
 (23, 'logo.png', '', '', '', ''),
-(29, 'Cd Effect Lines Geometric Album Cover (1).png', '', '', '', ''),
-(30, 'Pass.png', '', '', '', ''),
 (31, 'ALFS-OrderList.pdf', '', '', '', ''),
 (32, 'CoverDVD.png', '', '', '', ''),
-(34, 'logo-text.png', '', '', '', ''),
 (36, '3carsInfinityLogo.jpg', '', '', '', ''),
 (37, 'SiPeka-Sequence Buat Jobsheet.jpg', '', '', '', ''),
 (38, 'SiPeka-Sequence Edit Jobsheet.jpg', '', '', '', ''),
 (39, 'cover cd_penilaian karyawan_ryan febriansyah.png', '', '', '', ''),
-(41, 'Blue And Yellow Modern Company Handbook Booklet Cepi.pdf', '', '', '', '');
+(41, 'Blue And Yellow Modern Company Handbook Booklet Cepi.pdf', '', '', '', ''),
+(42, 'PT-Cakrawala-Global-Yaksa.png', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -72,8 +70,7 @@ CREATE TABLE `divisi` (
 
 INSERT INTO `divisi` (`id_divisi`, `nama_divisi`) VALUES
 (11, 'Departemen'),
-(12, 'Tech Support'),
-(13, 'Bagian Wibu');
+(12, 'Tech Support');
 
 -- --------------------------------------------------------
 
@@ -103,11 +100,9 @@ CREATE TABLE `jobsheet` (
 
 INSERT INTO `jobsheet` (`id_jobsheet`, `title`, `description`, `tasked_at`, `finished_at`, `deadline`, `status`, `nilai`, `id_user`, `references_id`, `attach_result_id`, `current_revision`, `is_revision`) VALUES
 (2, 'buatlah diagram sequence', 'diagram sequence untuk web alfs orderlist', '2025-04-11 16:02:03', '2025-04-16 16:06:18', '2025-04-15 16:02:00', 'COMPLETED', 0, 5, NULL, 31, 0, 0),
-(5, 'asd', '', '2025-04-11 17:23:53', '2025-04-16 16:04:59', '2025-04-16 17:23:00', 'COMPLETED', 0, 5, NULL, 30, 0, 0),
-(15, 'buatlah logo untuk PT. Infinite Genius Solutions', '', '2025-04-15 10:51:53', '2025-04-17 07:29:47', '2025-04-17 10:28:00', 'COMPLETED', 0, 2, NULL, 34, 2, 1),
+(15, 'buatlah logo untuk PT. Infinite Genius Solutions', '', '2025-04-15 10:51:53', '2025-04-21 09:13:28', '2025-04-21 12:12:00', 'COMPLETED', 90, 2, NULL, 42, 3, 1),
 (16, 'membuat cover dvd', 'buatlah cover dvd untuk aplikasi sipeka\r\n', '2025-04-15 13:48:27', '2025-04-16 16:32:32', '2025-04-17 16:31:00', 'COMPLETED', 0, 2, 21, 32, 1, 1),
 (17, 'bikin web INFINITY WORKS', '', '2025-04-16 15:43:59', '2025-04-17 08:00:59', '2025-04-17 10:50:00', 'COMPLETED', 100, 2, NULL, 36, 1, 1),
-(18, 'buatlah manual book siska', 'kayak gini mungkin', '2025-04-16 16:03:24', NULL, '2025-04-17 16:03:00', 'ON PROGRESS', 0, 5, 29, NULL, 0, 0),
 (19, 'bereskan diagram ini', '', '2025-04-17 08:21:29', '2025-04-17 08:26:53', '2025-04-17 13:22:00', 'COMPLETED', 60, 5, 37, 38, 0, 0),
 (20, 'buatlah manual book', 'dari aplikasi sipeka', '2025-04-17 08:54:19', '2025-04-17 08:58:11', '2025-04-17 14:57:00', 'COMPLETED', 88, 2, 39, 41, 1, 1);
 
@@ -138,7 +133,8 @@ INSERT INTO `jobsheet_revisions` (`id_revision`, `id_jobsheet`, `revision_count`
 (9, 15, 1, 'COMPLETED', '2025-04-16 16:42:54', 6, 'kurang bagus', 'kayak gini kah', NULL),
 (10, 15, 2, 'COMPLETED', '2025-04-17 07:28:50', 6, 'masih kurang bagus, coba ganti warna', 'ini sudah diganti warnanya pak', NULL),
 (11, 17, 1, 'COMPLETED', '2025-04-17 07:50:44', 6, 'harusnya ss web nya ya, bukan yang itu', 'nah ini harusnya sudah benar', NULL),
-(12, 20, 1, 'COMPLETED', '2025-04-17 08:57:27', 6, 'kurang berisi manual book, tolong lengkapi', 'sudah saya lengkapi', NULL);
+(12, 20, 1, 'COMPLETED', '2025-04-17 08:57:27', 6, 'kurang berisi manual book, tolong lengkapi', 'sudah saya lengkapi', NULL),
+(13, 15, 3, 'COMPLETED', '2025-04-21 09:12:40', 6, 'coba tambahkan elemen profesional', 'sudah saya tambahkan elemennya', NULL);
 
 -- --------------------------------------------------------
 
@@ -217,7 +213,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `attachments`
 --
 ALTER TABLE `attachments`
-  MODIFY `id_attachment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_attachment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `divisi`
@@ -229,19 +225,19 @@ ALTER TABLE `divisi`
 -- AUTO_INCREMENT for table `jobsheet`
 --
 ALTER TABLE `jobsheet`
-  MODIFY `id_jobsheet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_jobsheet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `jobsheet_revisions`
 --
 ALTER TABLE `jobsheet_revisions`
-  MODIFY `id_revision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_revision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
